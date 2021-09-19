@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  mqtt:
+    image: "vernemq/vernemq"
+    ports:
+      - "1883:1883"
+    environment:
+      - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
+      - DOCKER_VERNEMQ_ACCEPT_EULA=yes
+  redis:
+    image: "redis:alpine"
+  api:
+    image: "tiangolo/uvicorn-gunicorn-fastapi:python3.8"
+    working_dir: /app
+    ports:
+      - "80:80"
+    depends_on:
+      - mqtt
+      - redis
+    volumes:
+      - ./:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 80
+
