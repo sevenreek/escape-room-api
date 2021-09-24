@@ -2,17 +2,17 @@ version: "3.8"
 
 services:
   mqtt:
-    image: "vernemq/vernemq"
+    image: "eclipse-mosquitto"
     ports:
       - "1883:1883"
-      - "8080:8080"
-      - "9000:9000"
       - "9001:9001"
     environment:
       - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
       - DOCKER_VERNEMQ_ACCEPT_EULA=yes
       - DOCKER_VERNEMQ_LOG__CONSOLE=both
       - DOCKER_VERNEMQ_LOG__CONSOLE__LEVEL=debug
+    volumes:
+      - ./mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf
   redis:
     image: "redis:alpine"
   api:
