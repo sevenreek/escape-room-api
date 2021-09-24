@@ -13,6 +13,7 @@ services:
       - DOCKER_VERNEMQ_LOG__CONSOLE__LEVEL=debug
     volumes:
       - ./mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mqtt/users.txt:/mosquitto/config/users.txt
   redis:
     image: "redis:alpine"
   api:
