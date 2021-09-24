@@ -1,9 +1,11 @@
 from typing import Optional
 import aioredis
 from fastapi import FastAPI
+from mqttcfg import mqtt
 
 app = FastAPI()
 redis = aioredis.from_url("redis://redis")
+mqtt.init_app(app)
 
 @app.get("/status")
 def read_status():
@@ -31,6 +33,11 @@ async def get_status():
 
 @app.get("/timer/start")
 async def timer_start():
+    return
+
+@app.get("/mqtt/{topic}")
+async def mqtt_send(topic: str, body: Optional[str] = ""):
+    mqtt.publish(topic, body)
     return
 
 """
